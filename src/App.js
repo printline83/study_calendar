@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import Calendar from './components/molecules/Calendar';
+import PopContainer from './components/molecules/PopContainer';
+import { Route, Redirect } from 'react-router-dom';
+import { format } from 'date-fns';
+import { useState } from 'react';
+
 
 function App() {
+  const [data, setData] = useState([]);
+  const [pop, setPop] = useState('');
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Route exact path="/">
+        <Redirect to={`/${format(new Date(), 'yyyyMM')}`} />
+      </Route>
+      <Route path="/:month">
+        <Calendar data={data} setData={setData} />
+      </Route>
+      <Route path={'/:month/:day'}>
+        <PopContainer type="todos" pop={true} data={data} setData={setData} setPop={setPop} />
+        <PopContainer type="form" pop={pop} data={data} setData={setData} setPop={setPop} />
+      </Route>
     </div>
   );
 }
