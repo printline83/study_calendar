@@ -7,7 +7,6 @@ import { format } from 'date-fns';
 function Todos({data, setData, setPop}) {
   const history = useHistory();
   const {month, day} = useParams();
-  console.log(useParams());
   const todos = Object.keys(data).length === 0 ? undefined : data.find((v) => v.date == month+day );
   const removeTodo = (id) => {
     const newData = data.map(v => {
