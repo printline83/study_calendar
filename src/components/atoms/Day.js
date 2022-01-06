@@ -1,5 +1,7 @@
 import { format } from 'date-fns';
 import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 function Empty() {
   return (
@@ -25,7 +27,12 @@ function Day({day, todos}) {
           <ul>
             {todos === undefined || todos.todo.length === 0
             ? ''
-            : todos.todo.map(v => <li key={v.id}>{v.subject}</li>)}
+            : todos.todo.map(v => 
+              <li key={v.id} className={v.status ? 'complete' : ''}>
+                <FontAwesomeIcon icon={faCheck} />
+                {v.subject}
+              </li>
+            )}
           </ul>
         </div>
       </div>

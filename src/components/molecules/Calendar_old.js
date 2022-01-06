@@ -7,7 +7,6 @@ import { format, differenceInDays, add } from 'date-fns';
 import { useParams, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import apiData from '../../data/data.js';
-import { useDispatch, useSelector } from 'react-redux';
 
 const CalendarBox = styled.div`
     padding: 30px 15px;
@@ -19,14 +18,11 @@ const Title = styled.h1`
     text-align: center;
 `;
 
-function Calendar() {
-
-    const dispatch = useDispatch();
-    const state = useSelector((state) => state.reducer);
+function Calendar({data, setData}) {
 
     // 엑시오스 api 구분
     const getData = () => {
-      dispatch({type: 'get', 'payload': apiData});
+      setData(apiData);
       console.log('데이터를 가져온드아');
     };
   
@@ -65,7 +61,7 @@ function Calendar() {
           {weeks.map((v, i) => <div className="day week" key={i}><div>{v}</div></div>)}
           {weeks.map((v, i) => days[0].getDay() > i ? <Empty key={i} /> : '' )}
           {days.map((v, i) => {
-              const todos = state.find((vv) => {
+            const todos = data.find((vv) => {
               return vv.date == format(v, 'yyyyMMdd');
             });
             return <Day key={i} day={v} todos={todos} /> 

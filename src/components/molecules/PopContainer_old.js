@@ -1,17 +1,14 @@
-import { useSelector } from 'react-redux';
 import Form from './PopForm';
 import Todos from './PopTodos';
 
-function PopContainer({type, setPop}) {
-  let pop = useSelector(state => state.reducer2);
-  pop = type === 'todos' ? true : pop;
+function PopContainer({pop, data, setData, type, setPop}) {
   return (
     <div className={`popup ${pop !== '' ? 'pop_show' : ''}`}>
       <div className="popup_box">
         <div className="popup_inner">
           {type === "todos" 
-          ? <Todos setPop={setPop} />
-          : <Form setPop={setPop} pop={pop}/>}
+          ? <Todos data={data} setData={setData} setPop={setPop} />
+          : <Form data={data} setData={setData} setPop={setPop} pop={pop}/>}
         </div>
       </div>
     </div>

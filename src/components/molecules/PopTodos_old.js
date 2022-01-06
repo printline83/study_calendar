@@ -3,15 +3,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useParams, useHistory } from 'react-router-dom';
 import { format } from 'date-fns';
-import { useDispatch, useSelector } from 'react-redux';
 
-function Todos() {
-  const state = useSelector(state => state.reducer);
-  const dispatch = useDispatch();
+function Todos({data, setData, setPop}) {
   const history = useHistory();
   const {month, day} = useParams();
-  const todos = Object.keys(state).length === 0 ? undefined : state.find((v) => v.date == month+day );
-
+  const todos = Object.keys(data).length === 0 ? undefined : data.find((v) => v.date == month+day );
+  const removeTodo = (id) => {
+    const newData = data.map(v => {
+      if (v.date == month+day) {
+        return {...v, todo: v.todo.filter(vv => vv.id !== id)};
+      } else {
+        return v;
+      }
+    });
+    setData(newData);
+  };
+  const popForm = (id) => {
+    setPop(id);
+  };
   return (
     <>
       <button type="button" className="popup_close" onClick={() => { history.push(format(new Date(), `/${month}`)); }}>
@@ -26,17 +35,16 @@ function Todos() {
           return (
             <li key={i}>
               <InputGroup>
-                <InputGroup.Checkbox checked={v.status} onChange={() => dispatch({type: 'status', id: v.id, 'date': month+day})} />
                 <FormControl disabled={true} value={v.period[0] + '~' + v.period[1] + ' ' + v.subject} />
-                <Button variant="outline-secondary" onClick={() => dispatch({type: 'setid', id: v.id})}><FontAwesomeIcon icon={faPen} /></Button>
-                <Button variant="outline-secondary" onClick={() => dispatch({type: 'remove', id: v.id, 'date': month+day})}><FontAwesomeIcon icon={faTimes} /></Button>
+                <Button variant="outline-secondary" onClick={() => popForm(v.id)}><FontAwesomeIcon icon={faPen} /></Button>
+                <Button variant="outline-secondary" onClick={() => removeTodo(v.id)}><FontAwesomeIcon icon={faTimes} /></Button>
               </InputGroup>
             </li>
           )
         })}
       </ul>}
       <div className="d-grid">
-        <Button variant="outline-secondary" onClick={() => dispatch({type: 'setid', id: 1})}>추가</Button>
+        <Button variant="outline-secondary" onClick={() => popForm(1) }>추가</Button>
       </div>
     </>
   )
