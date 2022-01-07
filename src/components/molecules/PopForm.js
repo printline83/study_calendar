@@ -18,14 +18,12 @@ function Form() {
   useEffect(() => {
     if (parseInt(todoid) > 1) {
       const values = todos.todo.find((v, i) => v.id == todoid);
-      if (inputs.id === '') {
-        setInputs({
-          id: values.id,
-          start: values.period[0],
-          end: values.period[1],
-          subject: values.subject
-        });
-      }
+      setInputs({
+        id: values.id,
+        start: values.period[0],
+        end: values.period[1],
+        subject: values.subject
+      });
     }
   }, [todoid]);
 
