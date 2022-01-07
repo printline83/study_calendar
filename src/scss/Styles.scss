@@ -102,9 +102,6 @@
     display: none;
     &.pop_show {
         display: block;
-        .popup_box {
-            transform: scale(1);
-        }
     }
 	.popup_box {
         width: 600px;
@@ -114,8 +111,6 @@
 		left: 50%;
         margin-left: -300px;
 		margin-bottom: 50px;
-        transform: scale(0);
-        transition: transform 0.3s ease;
 		.popup_close {
 			width: 35px;
 			height: 35px;
@@ -162,4 +157,23 @@
             text-align: center;
         }
     }
+}
+
+
+.transpop-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+.transpop-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.2s, transform 0.2s;
+}
+.transpop-exit {
+    opacity: 1;
+}
+.transpop-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.2s, transform 0.2s;
 }
